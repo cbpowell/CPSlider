@@ -1,0 +1,282 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		EAD172C615804DF800302AC5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAD172C515804DF800302AC5 /* UIKit.framework */; };
+		EAD172C815804DF800302AC5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAD172C715804DF800302AC5 /* Foundation.framework */; };
+		EAD172CA15804DF800302AC5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAD172C915804DF800302AC5 /* CoreGraphics.framework */; };
+		EAD172D015804DF800302AC5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = EAD172CE15804DF800302AC5 /* InfoPlist.strings */; };
+		EAD172D215804DF800302AC5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EAD172D115804DF800302AC5 /* main.m */; };
+		EAD172D615804DF800302AC5 /* CPAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EAD172D515804DF800302AC5 /* CPAppDelegate.m */; };
+		EAD172D915804DF800302AC5 /* CPViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EAD172D815804DF800302AC5 /* CPViewController.m */; };
+		EAD172DC15804DF800302AC5 /* CPViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EAD172DA15804DF800302AC5 /* CPViewController.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		EAD172C115804DF800302AC5 /* CPSlider.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CPSlider.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EAD172C515804DF800302AC5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		EAD172C715804DF800302AC5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		EAD172C915804DF800302AC5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		EAD172CD15804DF800302AC5 /* CPSlider-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CPSlider-Info.plist"; sourceTree = "<group>"; };
+		EAD172CF15804DF800302AC5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		EAD172D115804DF800302AC5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		EAD172D315804DF800302AC5 /* CPSlider-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CPSlider-Prefix.pch"; sourceTree = "<group>"; };
+		EAD172D415804DF800302AC5 /* CPAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CPAppDelegate.h; sourceTree = "<group>"; };
+		EAD172D515804DF800302AC5 /* CPAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CPAppDelegate.m; sourceTree = "<group>"; };
+		EAD172D715804DF800302AC5 /* CPViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CPViewController.h; sourceTree = "<group>"; };
+		EAD172D815804DF800302AC5 /* CPViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CPViewController.m; sourceTree = "<group>"; };
+		EAD172DB15804DF800302AC5 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/CPViewController.xib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		EAD172BE15804DF800302AC5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EAD172C615804DF800302AC5 /* UIKit.framework in Frameworks */,
+				EAD172C815804DF800302AC5 /* Foundation.framework in Frameworks */,
+				EAD172CA15804DF800302AC5 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		EAD172B615804DF700302AC5 = {
+			isa = PBXGroup;
+			children = (
+				EAD172CB15804DF800302AC5 /* CPSlider */,
+				EAD172C415804DF800302AC5 /* Frameworks */,
+				EAD172C215804DF800302AC5 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		EAD172C215804DF800302AC5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EAD172C115804DF800302AC5 /* CPSlider.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EAD172C415804DF800302AC5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				EAD172C515804DF800302AC5 /* UIKit.framework */,
+				EAD172C715804DF800302AC5 /* Foundation.framework */,
+				EAD172C915804DF800302AC5 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		EAD172CB15804DF800302AC5 /* CPSlider */ = {
+			isa = PBXGroup;
+			children = (
+				EAD172D415804DF800302AC5 /* CPAppDelegate.h */,
+				EAD172D515804DF800302AC5 /* CPAppDelegate.m */,
+				EAD172D715804DF800302AC5 /* CPViewController.h */,
+				EAD172D815804DF800302AC5 /* CPViewController.m */,
+				EAD172DA15804DF800302AC5 /* CPViewController.xib */,
+				EAD172CC15804DF800302AC5 /* Supporting Files */,
+			);
+			path = CPSlider;
+			sourceTree = "<group>";
+		};
+		EAD172CC15804DF800302AC5 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				EAD172CD15804DF800302AC5 /* CPSlider-Info.plist */,
+				EAD172CE15804DF800302AC5 /* InfoPlist.strings */,
+				EAD172D115804DF800302AC5 /* main.m */,
+				EAD172D315804DF800302AC5 /* CPSlider-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		EAD172C015804DF800302AC5 /* CPSlider */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EAD172DF15804DF800302AC5 /* Build configuration list for PBXNativeTarget "CPSlider" */;
+			buildPhases = (
+				EAD172BD15804DF800302AC5 /* Sources */,
+				EAD172BE15804DF800302AC5 /* Frameworks */,
+				EAD172BF15804DF800302AC5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CPSlider;
+			productName = CPSlider;
+			productReference = EAD172C115804DF800302AC5 /* CPSlider.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		EAD172B815804DF800302AC5 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = CP;
+				LastUpgradeCheck = 0430;
+			};
+			buildConfigurationList = EAD172BB15804DF800302AC5 /* Build configuration list for PBXProject "CPSlider" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = EAD172B615804DF700302AC5;
+			productRefGroup = EAD172C215804DF800302AC5 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				EAD172C015804DF800302AC5 /* CPSlider */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		EAD172BF15804DF800302AC5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EAD172D015804DF800302AC5 /* InfoPlist.strings in Resources */,
+				EAD172DC15804DF800302AC5 /* CPViewController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		EAD172BD15804DF800302AC5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EAD172D215804DF800302AC5 /* main.m in Sources */,
+				EAD172D615804DF800302AC5 /* CPAppDelegate.m in Sources */,
+				EAD172D915804DF800302AC5 /* CPViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		EAD172CE15804DF800302AC5 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EAD172CF15804DF800302AC5 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		EAD172DA15804DF800302AC5 /* CPViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EAD172DB15804DF800302AC5 /* en */,
+			);
+			name = CPViewController.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		EAD172DD15804DF800302AC5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		EAD172DE15804DF800302AC5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		EAD172E015804DF800302AC5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CPSlider/CPSlider-Prefix.pch";
+				INFOPLIST_FILE = "CPSlider/CPSlider-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		EAD172E115804DF800302AC5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CPSlider/CPSlider-Prefix.pch";
+				INFOPLIST_FILE = "CPSlider/CPSlider-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		EAD172BB15804DF800302AC5 /* Build configuration list for PBXProject "CPSlider" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EAD172DD15804DF800302AC5 /* Debug */,
+				EAD172DE15804DF800302AC5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EAD172DF15804DF800302AC5 /* Build configuration list for PBXNativeTarget "CPSlider" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EAD172E015804DF800302AC5 /* Debug */,
+				EAD172E115804DF800302AC5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = EAD172B815804DF800302AC5 /* Project object */;
+}
