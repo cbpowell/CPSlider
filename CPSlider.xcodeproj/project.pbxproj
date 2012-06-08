@@ -15,6 +15,7 @@
 		EAD172D615804DF800302AC5 /* CPAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EAD172D515804DF800302AC5 /* CPAppDelegate.m */; };
 		EAD172D915804DF800302AC5 /* CPViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EAD172D815804DF800302AC5 /* CPViewController.m */; };
 		EAD172DC15804DF800302AC5 /* CPViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EAD172DA15804DF800302AC5 /* CPViewController.xib */; };
+		EAD172E515804E8B00302AC5 /* CPSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = EAD172E415804E8B00302AC5 /* CPSlider.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,8 @@
 		EAD172D715804DF800302AC5 /* CPViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CPViewController.h; sourceTree = "<group>"; };
 		EAD172D815804DF800302AC5 /* CPViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CPViewController.m; sourceTree = "<group>"; };
 		EAD172DB15804DF800302AC5 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/CPViewController.xib; sourceTree = "<group>"; };
+		EAD172E315804E8B00302AC5 /* CPSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPSlider.h; sourceTree = "<group>"; };
+		EAD172E415804E8B00302AC5 /* CPSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPSlider.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,7 +53,8 @@
 		EAD172B615804DF700302AC5 = {
 			isa = PBXGroup;
 			children = (
-				EAD172CB15804DF800302AC5 /* CPSlider */,
+				EAD172E215804E5F00302AC5 /* CPSlider */,
+				EAD172CB15804DF800302AC5 /* App */,
 				EAD172C415804DF800302AC5 /* Frameworks */,
 				EAD172C215804DF800302AC5 /* Products */,
 			);
@@ -74,7 +78,7 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		EAD172CB15804DF800302AC5 /* CPSlider */ = {
+		EAD172CB15804DF800302AC5 /* App */ = {
 			isa = PBXGroup;
 			children = (
 				EAD172D415804DF800302AC5 /* CPAppDelegate.h */,
@@ -84,6 +88,7 @@
 				EAD172DA15804DF800302AC5 /* CPViewController.xib */,
 				EAD172CC15804DF800302AC5 /* Supporting Files */,
 			);
+			name = App;
 			path = CPSlider;
 			sourceTree = "<group>";
 		};
@@ -96,6 +101,15 @@
 				EAD172D315804DF800302AC5 /* CPSlider-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		EAD172E215804E5F00302AC5 /* CPSlider */ = {
+			isa = PBXGroup;
+			children = (
+				EAD172E315804E8B00302AC5 /* CPSlider.h */,
+				EAD172E415804E8B00302AC5 /* CPSlider.m */,
+			);
+			path = CPSlider;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -164,6 +178,7 @@
 				EAD172D215804DF800302AC5 /* main.m in Sources */,
 				EAD172D615804DF800302AC5 /* CPAppDelegate.m in Sources */,
 				EAD172D915804DF800302AC5 /* CPViewController.m in Sources */,
+				EAD172E515804E8B00302AC5 /* CPSlider.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
