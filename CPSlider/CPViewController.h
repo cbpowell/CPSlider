@@ -8,6 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CPViewController : UIViewController
+#import "CPSlider.h"
+
+@interface CPViewController : UIViewController <CPSliderDelegate>
+
+@property (nonatomic, weak) CPSlider *slider;
+@property (nonatomic, weak) IBOutlet UIButton *resetButton;
+@property (nonatomic, weak) IBOutlet UILabel *positionLabel;
+@property (nonatomic, weak) IBOutlet UILabel *speedLabel;
+
+- (IBAction)resetToCenter:(id)sender;
 
 @end

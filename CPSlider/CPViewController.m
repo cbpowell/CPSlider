@@ -16,19 +16,23 @@
 
 @implementation CPViewController
 
+@synthesize slider;
+@synthesize resetButton, positionLabel, speedLabel;
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	
-    CPSlider *slider = [[CPSlider alloc] initWithFrame:CGRectMake(18, 166, 284, 23)];
-    [slider addTarget:self action:@selector(sliderValueDidChange:) forControlEvents:UIControlEventValueChanged];
-    [self.view addSubview:slider];
+    CPSlider *newSlider = [[CPSlider alloc] initWithFrame:CGRectMake(18, 166, 284, 23)];
+    [self.view addSubview:newSlider];
+    self.slider = newSlider;
+    self.slider.delegate = self;
+    [self.slider addTarget:self action:@selector(sliderValueDidChange:) forControlEvents:UIControlEventValueChanged];
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -36,8 +40,20 @@
     return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
 }
 
-- (void)sliderValueDidChange:(UISlider *)sender {
-    NSLog(@"Value: %f", sender.value);
+- (void)sliderValueDidChange:(CPSlider *)sender {
+    self.positionLabel.text = [NSString stringWithFormat:@"%.5f", sender.value];
+}
+
+- (void)resetToCenter:(id)sender {
+    self.slider.value = 0.5f;
+    self.positionLabel.text = @"0.5f";
+    self.speedLabel.text = [NSString stringWithFormat:@"%.3f", [[slider.scrubbingSpeeds objectAtIndex:0] floatValue]];
+}
+
+#pragma mark - Slider Delegate
+
+- (void)slider:(CPSlider *)slider didChangeToSpeed:(CGFloat)speed {
+    self.speedLabel.text = [NSString stringWithFormat:@"%.3f", speed];
 }
 
 @end
