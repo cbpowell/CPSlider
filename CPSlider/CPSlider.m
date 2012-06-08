@@ -15,7 +15,7 @@
 @property (nonatomic) float effectiveValue;
 @property (nonatomic) float verticalChangeAdjustment;
 @property (nonatomic) BOOL isSliding;
-// NOTE: just using self.tracking causes timing problems! I already tried it :)
+// NOTE: just using self.tracking causes order-of-occurance problems! I already tried it :)
 
 @end
 
@@ -119,10 +119,10 @@
         float maxDownrange = [[self.scrubbingSpeedPositions lastObject] floatValue];
         if (fabsf(currentTouchPoint.y < fabsf(previousTouchPoint.y)) && 
             fabsf(currentTouchPoint.y) < maxDownrange &&
-            self.currentSpeedPositionIndex != 0) 
+            ![self pointInside:currentTouchPoint withEvent:nil]) 
         {
             CGFloat verticalDownrange = MAX(fabsf(currentTouchPoint.y - CGRectGetMidY([self trackRectForBounds:self.bounds])), 0);
-            float adjustmentRatio = powf((1 - (verticalDownrange/maxDownrange)), 8);
+            float adjustmentRatio = powf((1 - (verticalDownrange/maxDownrange)), 4);
             self.verticalChangeAdjustment = ([super value] - self.effectiveValue) * adjustmentRatio;
             
             // Force thumb update
