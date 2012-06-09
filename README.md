@@ -1,6 +1,6 @@
 ## Description
 
-CPSlider is a drop-in replacement for UISlider that allows varying scrubbing speeds as the user drags away from the slider thumb, emulating the slider used in the iOS iPod music player. It also includes delegate callbacks to allow an object to be notified of scrubbing speed changes.
+CPSlider is a drop-in, subclass replacement for UISlider that allows varying scrubbing speeds as the user drags away from the slider thumb, emulating the slider used in the iOS iPod music player. It also includes delegate callbacks to allow an object to be notified of scrubbing speed changes.
 
 CPSlider was created because the only other implementation I could find, Ole Begemann's [OBSlider](https://github.com/ole/OBSlider), while top notch, had trouble with my strange use case of starting with a fine scrubbing speed and increasing back to 1.0x as the user dragged down. I also was interested to see if there was a different method by which this could be implemented, without performing the position calculations based on the various thumb and track frames.
 
