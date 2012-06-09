@@ -28,6 +28,18 @@
     self.slider = newSlider;
     self.slider.delegate = self;
     [self.slider addTarget:self action:@selector(sliderValueDidChange:) forControlEvents:UIControlEventValueChanged];
+    
+    self.slider.scrubbingSpeedPositions = [NSArray arrayWithObjects:
+                                           [NSNumber numberWithInt:0],
+                                           [NSNumber numberWithInt:50], 
+                                           [NSNumber numberWithInt:125],
+                                           [NSNumber numberWithInt:175], nil];
+    
+    self.slider.scrubbingSpeeds = [NSArray arrayWithObjects:
+                                   [NSNumber numberWithFloat:1.0f],
+                                   [NSNumber numberWithFloat:0.5f],
+                                   [NSNumber numberWithFloat:0.25f],
+                                   [NSNumber numberWithFloat:0.1f], nil];
 }
 
 - (void)viewDidUnload
