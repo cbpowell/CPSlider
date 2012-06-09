@@ -16,6 +16,7 @@
 @property (nonatomic, strong) NSArray *scrubbingSpeedPositions;
 @property (nonatomic, strong) NSArray *scrubbingSpeeds;
 
+@property (nonatomic) BOOL accelerateWhenReturning;
 @property (nonatomic) BOOL ignoreDraggingAboveSlider;
 
 @end

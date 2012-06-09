@@ -15,7 +15,7 @@
 @property (nonatomic) float effectiveValue;
 @property (nonatomic) float verticalChangeAdjustment;
 @property (nonatomic) BOOL isSliding;
-// NOTE: just using self.tracking causes order-of-occurance problems! I already tried it :)
+// NOTE: just using self.tracking causes order-of-occurance problems, so use this isSliding method internally
 
 @end
 
@@ -24,11 +24,12 @@
 @synthesize delegate;
 @synthesize scrubbingSpeeds;
 @synthesize scrubbingSpeedPositions;
+@synthesize accelerateWhenReturning;
 @synthesize ignoreDraggingAboveSlider;
 
 @synthesize currentSpeed;
 @synthesize currentSpeedPositionIndex = _currentSpeedPositionIndex;
-@synthesize effectiveValue;
+@synthesize effectiveValue = _effectiveValue;
 @synthesize verticalChangeAdjustment;
 @synthesize isSliding;
 
@@ -50,6 +51,7 @@
         
         self.effectiveValue = 0.0f;
         self.ignoreDraggingAboveSlider = YES;
+        self.accelerateWhenReturning = YES;
     }
     return self;
 }
@@ -98,6 +100,14 @@
     }
 }
 
+- (void)setEffectiveValue:(float)effectiveValue {
+    if (_effectiveValue == effectiveValue) {
+        return;
+    }
+    
+    _effectiveValue = MAX(MIN(effectiveValue, self.maximumValue), self.minimumValue);
+}
+
 #pragma mark - Touch handlers
 
 - (BOOL)beginTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event {
@@ -117,15 +127,16 @@
         
         // Check if vertical offset adjustment is needed if the touch is returning to the slider
         float maxDownrange = [[self.scrubbingSpeedPositions lastObject] floatValue];
-        if (fabsf(currentTouchPoint.y < fabsf(previousTouchPoint.y)) && 
-            fabsf(currentTouchPoint.y) < maxDownrange &&
-            ![self pointInside:currentTouchPoint withEvent:nil]) 
+        if (self.accelerateWhenReturning &&
+            fabsf(currentTouchPoint.y < fabsf(previousTouchPoint.y)) && // adjust only if touch is returning
+            fabsf(currentTouchPoint.y) < maxDownrange && // adjust only if it's inside the furthest slider speed position
+            ![self pointInside:currentTouchPoint withEvent:nil]) // do not adjust if the touch is on the slider. Prevents jumpiness when default speed is not 1.0f
         {
             CGFloat verticalDownrange = MAX(fabsf(currentTouchPoint.y - CGRectGetMidY([self trackRectForBounds:self.bounds])), 0);
             float adjustmentRatio = powf((1 - (verticalDownrange/maxDownrange)), 4);
             self.verticalChangeAdjustment = ([super value] - self.effectiveValue) * adjustmentRatio;
             
-            // Force thumb update
+            // Force thumb update and call to thumbRectForBounds:trackRect:value
             [self setNeedsLayout];
         }
     }
@@ -135,6 +146,7 @@
 - (void)endTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event {
     [super endTrackingWithTouch:touch withEvent:event];
     self.isSliding = NO;
+    self.currentSpeedPositionIndex = 0;
     self.value = self.effectiveValue;
 }
 
