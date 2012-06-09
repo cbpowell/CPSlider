@@ -150,7 +150,8 @@
         CGPoint previousTouchPoint = [touch previousLocationInView:self];
         CGPoint currentTouchPoint = [touch locationInView:self];
         
-        self.currentSpeedPositionIndex = [self scrubbingSpeedPositionForVerticalDownrange:currentTouchPoint.y];
+        CGFloat verticalDownrange = currentTouchPoint.y - CGRectGetMidY([self trackRectForBounds:self.bounds]);
+        self.currentSpeedPositionIndex = [self scrubbingSpeedPositionForVerticalDownrange:verticalDownrange];
         
         // Check if vertical offset adjustment is needed if the touch is returning to the slider
         float maxDownrange = [[self.scrubbingSpeedPositions lastObject] floatValue];
@@ -159,7 +160,7 @@
             fabsf(currentTouchPoint.y) < maxDownrange && // adjust only if it's inside the furthest slider speed position
             ![self pointInside:currentTouchPoint withEvent:nil]) // do not adjust if the touch is on the slider. Prevents jumpiness when default speed is not 1.0f
         {
-            CGFloat verticalDownrange = MAX(fabsf(currentTouchPoint.y - CGRectGetMidY([self trackRectForBounds:self.bounds])), 0);
+            verticalDownrange = MAX(fabsf(verticalDownrange), 0);
             float adjustmentRatio = powf((1 - (verticalDownrange/maxDownrange)), 4);
             self.verticalChangeAdjustment = ([super value] - self.effectiveValue) * adjustmentRatio;
             
@@ -194,7 +195,8 @@
 
 #pragma mark - Other Helpers
 
-- (NSUInteger)scrubbingSpeedPositionForVerticalDownrange:(CGFloat)downrange {
+- (NSUInteger)scrubbingSpeedPositionForVerticalDownrange:(CGFloat)downrange {    
+    // Ignore negative downranges if specified
     if (self.ignoreDraggingAboveSlider) {
         downrange = MAX(downrange, 0);
     }
