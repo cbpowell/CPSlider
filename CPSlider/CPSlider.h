@@ -62,7 +62,7 @@
 @protocol CPSliderDelegate <NSObject>
 
 @optional
-- (void)slider:(CPSlider *)slider didChangeToSpeed:(CGFloat)speed;
-- (void)slider:(CPSlider *)slider didChangeToSpeedIndex:(NSUInteger)index;
+- (void)slider:(CPSlider *)slider didChangeToSpeed:(CGFloat)speed whileTracking:(BOOL)tracking;
+- (void)slider:(CPSlider *)slider didChangeToSpeedIndex:(NSUInteger)index whileTracking:(BOOL)tracking;
 
 @end

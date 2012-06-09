@@ -119,11 +119,11 @@
     _currentSpeedPositionIndex = currentSpeedPositionIndex;
     
     // Notify delegates
-    if ([self.delegate respondsToSelector:@selector(slider:didChangeToSpeedIndex:)]) {
-        [self.delegate slider:self didChangeToSpeedIndex:_currentSpeedPositionIndex];
+    if ([self.delegate respondsToSelector:@selector(slider:didChangeToSpeedIndex:whileTracking:)]) {
+        [self.delegate slider:self didChangeToSpeedIndex:_currentSpeedPositionIndex whileTracking:self.isSliding];
     }
-    if ([self.delegate respondsToSelector:@selector(slider:didChangeToSpeed:)] && _currentSpeedPositionIndex != NSNotFound) {
-        [self.delegate slider:self didChangeToSpeed:[[self.scrubbingSpeeds objectAtIndex:_currentSpeedPositionIndex] floatValue]];
+    if ([self.delegate respondsToSelector:@selector(slider:didChangeToSpeed:whileTracking:)] && _currentSpeedPositionIndex != NSNotFound) {
+        [self.delegate slider:self didChangeToSpeed:[[self.scrubbingSpeeds objectAtIndex:_currentSpeedPositionIndex] floatValue] whileTracking:self.isSliding];
     }
 }
 
@@ -145,7 +145,6 @@
 
 - (BOOL)continueTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event {
     BOOL continueTracking = [super continueTrackingWithTouch:touch withEvent:event];
-    
     if (self.isSliding) {
         CGPoint previousTouchPoint = [touch previousLocationInView:self];
         CGPoint currentTouchPoint = [touch locationInView:self];
