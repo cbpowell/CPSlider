@@ -23,7 +23,7 @@
 {
     [super viewDidLoad];
 	
-    CPSlider *newSlider = [[CPSlider alloc] initWithFrame:CGRectMake(18, 166, 284, 23)];
+    CPSlider *newSlider = [[CPSlider alloc] initWithFrame:CGRectMake(18, 100, 284, 23)];
     [self.view addSubview:newSlider];
     self.slider = newSlider;
     self.slider.delegate = self;
@@ -33,7 +33,7 @@
                                            [NSNumber numberWithInt:0],
                                            [NSNumber numberWithInt:50], 
                                            [NSNumber numberWithInt:125],
-                                           [NSNumber numberWithInt:175], nil];
+                                           [NSNumber numberWithInt:200], nil];
     
     self.slider.scrubbingSpeeds = [NSArray arrayWithObjects:
                                    [NSNumber numberWithFloat:1.0f],
