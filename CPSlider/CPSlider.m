@@ -82,21 +82,26 @@
 
 - (void)setValue:(float)value animated:(BOOL)animated {
     if (self.isSliding) {
+        // Adjust effective value
         float scrubbingSpeed = [[self.scrubbingSpeeds objectAtIndex:self.currentSpeedPositionIndex] floatValue];
         float effectiveDifference = (value - [super value]) * scrubbingSpeed;
         self.effectiveValue += (effectiveDifference + self.verticalChangeAdjustment);
         self.verticalChangeAdjustment = 0.0f;
     } else {
+        // No adjustment
         self.effectiveValue = value;
     }
     
+    // Either way, set use super to set true value
     [super setValue:value animated:animated];
 }
 
 - (float)value {
     if (self.isSliding) {
+        // If sliding, return the effective value
         return self.effectiveValue;
     } else {
+        // Otherwise, the true value (grabbed via super to prevent infinite recursion)
         return [super value];
     }
 }
@@ -177,8 +182,10 @@
 - (CGRect)thumbRectForBounds:(CGRect)bounds trackRect:(CGRect)rect value:(float)value {
     CGRect thumbRect;
     if (self.isSliding) {
+        // If sliding, use the effective value to place the thumb
         thumbRect = [super thumbRectForBounds:bounds trackRect:rect value:self.effectiveValue];
     } else {
+        // Otherwise, use the true value
         thumbRect = [super thumbRectForBounds:bounds trackRect:rect value:self.value];
     }
     return thumbRect;
