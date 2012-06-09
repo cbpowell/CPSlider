@@ -38,7 +38,22 @@
 @property (nonatomic, strong) NSArray *scrubbingSpeedPositions;
 @property (nonatomic, strong) NSArray *scrubbingSpeeds;
 
+/*
+ * accelerateWhenReturning:
+ * Defaults to: YES
+ * If set to YES, as the user's touch point returns to the slider, CPSlider will adjust
+ * the position more and more rapidly towards the "true" position. The true position is
+ * considered to be where the slider would be directly under the user's finger.
+ */
 @property (nonatomic) BOOL accelerateWhenReturning;
+
+/*
+ * ignoreDraggingAboveSlider
+ * Defaults to: YES
+ * If set to YES, if the user's touch strays above (i.e. lower Y position) the slider,
+ * CPSlider will still use the lowest scrubbing speed. WARNING: if set to NO, and there's
+ * not a negative scrubbing speed position above the touch point, you will get a crash.
+ */
 @property (nonatomic) BOOL ignoreDraggingAboveSlider;
 
 @end
