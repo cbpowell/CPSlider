@@ -148,10 +148,8 @@
 
 - (BOOL)continueTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event {
     if (self.isSliding) {
-        CGPoint previousTouchPoint = [touch previousLocationInView:self];
         CGPoint currentTouchPoint = [touch locationInView:self];
-        
-        CGFloat horizontalChange = currentTouchPoint.x - previousTouchPoint.x;
+        CGPoint previousTouchPoint = [touch previousLocationInView:self];
         CGFloat verticalDownrange = currentTouchPoint.y - CGRectGetMidY([self trackRectForBounds:self.bounds]);
         self.currentSpeedPositionIndex = [self scrubbingSpeedPositionForVerticalDownrange:verticalDownrange];
         
@@ -167,9 +165,11 @@
             self.verticalChangeAdjustment = ([super value] - self.effectiveValue) * adjustmentRatio;
         }
         
-        // Apply horizontal change (emulation of standard UISlider)
-        CGFloat valueChange = horizontalChange / [self trackRectForBounds:self.bounds].size.width;
-        [self setValue:([super value] + valueChange) animated:NO];
+        // Check for 
+        
+        // Apply horizontal change (emulation (I think?) of standard UISlider)
+        CGFloat newValue = (self.maximumValue - self.minimumValue) * currentTouchPoint.x / [self trackRectForBounds:self.bounds].size.width; //[super value] + valueChange;
+        [self setValue:newValue animated:NO];
         [self setNeedsLayout];
         
         // Send UIControl action
