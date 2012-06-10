@@ -23,7 +23,7 @@
 {
     [super viewDidLoad];
 	
-    CPSlider *newSlider = [[CPSlider alloc] initWithFrame:CGRectMake(18, 100, 284, 23)];
+    CPSlider *newSlider = [[CPSlider alloc] initWithFrame:CGRectMake(30, 100, 260, 23)];
     [self.view addSubview:newSlider];
     self.slider = newSlider;
     self.slider.delegate = self;
