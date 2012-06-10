@@ -144,11 +144,11 @@
 }
 
 - (BOOL)continueTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event {
-    BOOL continueTracking = [super continueTrackingWithTouch:touch withEvent:event];
     if (self.isSliding) {
         CGPoint previousTouchPoint = [touch previousLocationInView:self];
         CGPoint currentTouchPoint = [touch locationInView:self];
         
+        CGFloat horizontalChange = currentTouchPoint.x - previousTouchPoint.x;
         CGFloat verticalDownrange = currentTouchPoint.y - CGRectGetMidY([self trackRectForBounds:self.bounds]);
         self.currentSpeedPositionIndex = [self scrubbingSpeedPositionForVerticalDownrange:verticalDownrange];
         
@@ -162,12 +162,19 @@
             verticalDownrange = MAX(fabsf(verticalDownrange), 0);
             float adjustmentRatio = powf((1 - (verticalDownrange/maxDownrange)), 4);
             self.verticalChangeAdjustment = ([super value] - self.effectiveValue) * adjustmentRatio;
-            
-            // Force thumb update and call to thumbRectForBounds:trackRect:value
-            [self setNeedsLayout];
+        }
+        
+        // Apply horizontal change (emulation of standard UISlider)
+        CGFloat valueChange = horizontalChange / [self trackRectForBounds:self.bounds].size.width;
+        [self setValue:([super value] + valueChange) animated:NO];
+        [self setNeedsLayout];
+        
+        // Send UIControl action
+        if (self.continuous) {
+            [self sendActionsForControlEvents:UIControlEventValueChanged];
         }
     }
-    return continueTracking;
+    return self.isSliding;
 }
 
 - (void)endTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event {
@@ -177,7 +184,7 @@
     self.value = self.effectiveValue;
 }
 
-#pragma mark - Thumb position
+#pragma mark - UISlider Rect methods
 
 - (CGRect)thumbRectForBounds:(CGRect)bounds trackRect:(CGRect)rect value:(float)value {
     CGRect thumbRect;
@@ -190,7 +197,6 @@
     }
     return thumbRect;
 }
-
 
 #pragma mark - Other Helpers
 
