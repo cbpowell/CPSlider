@@ -32,7 +32,6 @@
 
 @interface CPSlider ()
 
-@property (nonatomic) float currentSpeed;
 @property (nonatomic) NSUInteger currentSpeedPositionIndex;
 @property (nonatomic) float effectiveValue;
 @property (nonatomic) float verticalChangeAdjustment;
@@ -50,7 +49,6 @@
 @synthesize accelerateWhenReturning;
 @synthesize ignoreDraggingAboveSlider;
 
-@synthesize currentSpeed;
 @synthesize currentSpeedPositionIndex = _currentSpeedPositionIndex;
 @synthesize effectiveValue = _effectiveValue;
 @synthesize verticalChangeAdjustment;
@@ -85,9 +83,9 @@
 - (void)setValue:(float)value animated:(BOOL)animated {
     if (self.isSliding) {
         // Adjust effective value
-        float scrubbingSpeed = [[self.scrubbingSpeeds objectAtIndex:self.currentSpeedPositionIndex] floatValue];
-        float effectiveDifference = (value - [super value]) * scrubbingSpeed;
+        float effectiveDifference = (value - [super value]) * self.currentScrubbingSpeed;
         self.effectiveValue += (effectiveDifference + self.verticalChangeAdjustment + self.horizontalChangeAdjustment);
+        // Reset adjustments
         self.verticalChangeAdjustment = 0.0f;
         self.horizontalChangeAdjustment = 0.0f;
     } else {
@@ -153,19 +151,18 @@
         CGFloat verticalDownrange = currentTouchPoint.y - CGRectGetMidY([self trackRectForBounds:self.bounds]);
         self.currentSpeedPositionIndex = [self scrubbingSpeedPositionForVerticalDownrange:verticalDownrange];
         
-        // Check if vertical offset adjustment is needed if the touch is returning to the slider
+        // Check if the touch is returning to the slider
         float maxDownrange = [[self.scrubbingSpeedPositions lastObject] floatValue];
         if (self.accelerateWhenReturning &&
             fabsf(currentTouchPoint.y < fabsf(previousTouchPoint.y)) && // adjust only if touch is returning
             fabsf(currentTouchPoint.y) < maxDownrange && // adjust only if it's inside the furthest slider speed position
             ![self pointInside:currentTouchPoint withEvent:nil]) // do not adjust if the touch is on the slider. Prevents jumpiness when default speed is not 1.0f
         {
-            verticalDownrange = MAX(fabsf(verticalDownrange), 0);
+            // Calculate and apply any vertical adjustment
+            verticalDownrange = fabsf(verticalDownrange);
             float adjustmentRatio = powf((1 - (verticalDownrange/maxDownrange)), 4);
             self.verticalChangeAdjustment = ([super value] - self.effectiveValue) * adjustmentRatio;
         }
-        
-        // Check for 
         
         // Apply horizontal change (emulation (I think?) of standard UISlider)
         CGFloat newValue = (self.maximumValue - self.minimumValue) * currentTouchPoint.x / [self trackRectForBounds:self.bounds].size.width; //[super value] + valueChange;
@@ -221,6 +218,14 @@
         }
         return NO;
     }];
+}
+
+- (float)currentScrubbingSpeed {
+    return [[self.scrubbingSpeeds objectAtIndex:self.currentSpeedPositionIndex] floatValue];
+}
+
+- (NSUInteger)currentScrubbingSpeedPosition {
+    return self.currentSpeedPositionIndex;
 }
 
 @end

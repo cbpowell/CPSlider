@@ -38,6 +38,9 @@
 @property (nonatomic, strong) NSArray *scrubbingSpeedPositions;
 @property (nonatomic, strong) NSArray *scrubbingSpeeds;
 
+@property (nonatomic, readonly) float currentScrubbingSpeed;
+@property (nonatomic, readonly) NSUInteger currentScrubbingSpeedPosition;
+
 /*
  * accelerateWhenReturning:
  * Defaults to: YES
