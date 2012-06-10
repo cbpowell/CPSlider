@@ -36,6 +36,7 @@
 @property (nonatomic) NSUInteger currentSpeedPositionIndex;
 @property (nonatomic) float effectiveValue;
 @property (nonatomic) float verticalChangeAdjustment;
+@property (nonatomic) float horizontalChangeAdjustment;
 @property (nonatomic) BOOL isSliding;
 // NOTE: just using self.tracking causes order-of-occurance problems, so use this isSliding method internally
 
@@ -53,6 +54,7 @@
 @synthesize currentSpeedPositionIndex = _currentSpeedPositionIndex;
 @synthesize effectiveValue = _effectiveValue;
 @synthesize verticalChangeAdjustment;
+@synthesize horizontalChangeAdjustment;
 @synthesize isSliding;
 
 - (id)initWithFrame:(CGRect)frame
@@ -85,15 +87,16 @@
         // Adjust effective value
         float scrubbingSpeed = [[self.scrubbingSpeeds objectAtIndex:self.currentSpeedPositionIndex] floatValue];
         float effectiveDifference = (value - [super value]) * scrubbingSpeed;
-        self.effectiveValue += (effectiveDifference + self.verticalChangeAdjustment);
+        self.effectiveValue += (effectiveDifference + self.verticalChangeAdjustment + self.horizontalChangeAdjustment);
         self.verticalChangeAdjustment = 0.0f;
+        self.horizontalChangeAdjustment = 0.0f;
     } else {
         // No adjustment
         self.effectiveValue = value;
     }
     
     // Either way, set use super to set true value
-    [super setValue:value animated:animated];
+    [super setValue:MAX(MIN(value, self.maximumValue), self.minimumValue) animated:animated];
 }
 
 - (float)value {
