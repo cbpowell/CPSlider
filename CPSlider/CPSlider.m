@@ -181,10 +181,16 @@
 }
 
 - (void)endTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event {
-    [super endTrackingWithTouch:touch withEvent:event];
-    self.isSliding = NO;
     self.currentSpeedPositionIndex = 0;
-    self.value = self.effectiveValue;
+    self.isSliding = NO;
+    
+    // Move value to new value
+    [super setValue:self.effectiveValue animated:NO];
+    [self setNeedsLayout];
+    
+    // UIControl cleanup
+    [self sendActionsForControlEvents:UIControlEventValueChanged];
+    self.highlighted = NO;
 }
 
 #pragma mark - UISlider Rect methods
