@@ -49,9 +49,15 @@ slider.ignoreDraggingAboveSlider = YES; // Defaults to YES, see CPSlider.h for i
 And one or both of the delegate methods can be implemented.
 
 ```objective-c
-- (void)slider:(CPSlider *)slider didChangeToSpeed:(CGFloat)speed {
+- (void)slider:(CPSlider *)slider didChangeToSpeed:(CGFloat)speed whileTracking:(BOOL)tracking {
     // Do something with the speed change
+    // 'tracking' is YES during touch and changes to NO on touch up
 }
+
+- (void)slider:(CPSlider *)slider didChangeToSpeedIndex:(NSUInteger)index whileTracking:(BOOL)tracking {
+    // This version reports the index of the speed entry
+}
+
 ```
 
 ## Todo
