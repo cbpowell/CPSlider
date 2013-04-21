@@ -165,7 +165,7 @@
         }
         
         // Apply horizontal change (emulation (I think?) of standard UISlider)
-        CGFloat newValue = (self.maximumValue - self.minimumValue) * currentTouchPoint.x / [self trackRectForBounds:self.bounds].size.width; //[super value] + valueChange;
+        CGFloat newValue = (self.maximumValue - self.minimumValue) * currentTouchPoint.x / [self trackRectForBounds:self.bounds].size.width;
         [self setValue:newValue animated:NO];
         [self setNeedsLayout];
         
