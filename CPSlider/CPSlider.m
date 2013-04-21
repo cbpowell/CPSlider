@@ -59,23 +59,37 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.scrubbingSpeedPositions = [NSArray arrayWithObjects:
-                                        [NSNumber numberWithInt:0],
-                                        [NSNumber numberWithInt:50], 
-                                        [NSNumber numberWithInt:100],
-                                        [NSNumber numberWithInt:150], nil];
-        
-        self.scrubbingSpeeds = [NSArray arrayWithObjects:
-                                [NSNumber numberWithFloat:1.0f],
-                                [NSNumber numberWithFloat:0.5f],
-                                [NSNumber numberWithFloat:0.25f],
-                                [NSNumber numberWithFloat:0.1f], nil];
-        
-        self.effectiveValue = 0.0f;
-        self.ignoreDraggingAboveSlider = YES;
-        self.accelerateWhenReturning = YES;
+        [self setupSliderDefaults];
     }
     return self;
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        [self setupSliderDefaults];
+    }
+    return self;
+}
+
+- (void)setupSliderDefaults
+{
+    self.scrubbingSpeedPositions = [NSArray arrayWithObjects:
+                                    [NSNumber numberWithInt:0],
+                                    [NSNumber numberWithInt:50], 
+                                    [NSNumber numberWithInt:100],
+                                    [NSNumber numberWithInt:150], nil];
+    
+    self.scrubbingSpeeds = [NSArray arrayWithObjects:
+                            [NSNumber numberWithFloat:1.0f],
+                            [NSNumber numberWithFloat:0.5f],
+                            [NSNumber numberWithFloat:0.25f],
+                            [NSNumber numberWithFloat:0.1f], nil];
+    
+    self.effectiveValue = 0.0f;
+    self.ignoreDraggingAboveSlider = YES;
+    self.accelerateWhenReturning = YES;
 }
 
 #pragma mark - Custom UISlider getters/setters

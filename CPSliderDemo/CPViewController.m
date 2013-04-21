@@ -64,7 +64,7 @@
 
 #pragma mark - Slider Delegate
 
-- (void)slider:(CPSlider *)slider didChangeToSpeed:(CGFloat)speed {
+- (void)slider:(CPSlider *)slider didChangeToSpeed:(CGFloat)speed whileTracking:(BOOL)tracking {
     self.speedLabel.text = [NSString stringWithFormat:@"%.3f", speed];
 }
 
