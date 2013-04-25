@@ -6,7 +6,7 @@ Pod::Spec.new do |s|
   s.license      = { :type => 'MIT', :file => 'LICENSE' }
   s.author       = { "Charles Powell" => "cbpowell@gmail.com" }
   s.source       = { :git => "https://github.com/cbpowell/CPSlider.git", :tag => s.version.to_s }
-  s.platform     = :ios, '4.0'
+  s.platform     = :ios, '4.3'
   s.source_files = 'CPSlider/*'
   s.requires_arc = true
 end

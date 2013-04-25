@@ -43,18 +43,6 @@
 
 @implementation CPSlider
 
-@synthesize delegate;
-@synthesize scrubbingSpeeds;
-@synthesize scrubbingSpeedPositions;
-@synthesize accelerateWhenReturning;
-@synthesize ignoreDraggingAboveSlider;
-
-@synthesize currentSpeedPositionIndex = _currentSpeedPositionIndex;
-@synthesize effectiveValue = _effectiveValue;
-@synthesize verticalChangeAdjustment;
-@synthesize horizontalChangeAdjustment;
-@synthesize isSliding;
-
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];

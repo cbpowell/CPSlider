@@ -16,9 +16,6 @@
 
 @implementation CPViewController
 
-@synthesize slider;
-@synthesize resetButton, positionLabel, speedLabel;
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -45,6 +42,10 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
+    self.slider = nil;
+    self.resetButton = nil;
+    self.positionLabel = nil;
+    self.speedLabel = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -59,7 +60,7 @@
 - (void)resetToCenter:(id)sender {
     self.slider.value = 0.5f;
     self.positionLabel.text = @"0.5f";
-    self.speedLabel.text = [NSString stringWithFormat:@"%.3f", [[slider.scrubbingSpeeds objectAtIndex:0] floatValue]];
+    self.speedLabel.text = [NSString stringWithFormat:@"%.3f", [[self.slider.scrubbingSpeeds objectAtIndex:0] floatValue]];
 }
 
 #pragma mark - Slider Delegate
