@@ -3,7 +3,7 @@
 //  CPSlider
 //
 //  Created by Charles Powell on 6/6/12.
-//  Copyright (c) 2012 Charles Powell. All rights reserved.
+//  Copyright (c) 2013 Charles Powell. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
@@ -12,10 +12,10 @@
 
 @interface CPViewController : UIViewController <CPSliderDelegate>
 
-@property (nonatomic, weak) CPSlider *slider;
-@property (nonatomic, weak) IBOutlet UIButton *resetButton;
-@property (nonatomic, weak) IBOutlet UILabel *positionLabel;
-@property (nonatomic, weak) IBOutlet UILabel *speedLabel;
+@property (nonatomic, unsafe_unretained) CPSlider *slider;
+@property (nonatomic, unsafe_unretained) IBOutlet UIButton *resetButton;
+@property (nonatomic, unsafe_unretained) IBOutlet UILabel *positionLabel;
+@property (nonatomic, unsafe_unretained) IBOutlet UILabel *speedLabel;
 
 - (IBAction)resetToCenter:(id)sender;
 

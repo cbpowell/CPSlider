@@ -4,7 +4,7 @@
 //
 
 /**
- * Copyright (c) 2012 Charles Powell
+ * Copyright (c) 2013 Charles Powell
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -34,7 +34,7 @@
 
 @interface CPSlider : UISlider
 
-@property (nonatomic, weak) id <CPSliderDelegate>delegate;
+@property (nonatomic, unsafe_unretained) id <CPSliderDelegate>delegate;
 @property (nonatomic, strong) NSArray *scrubbingSpeedPositions;
 @property (nonatomic, strong) NSArray *scrubbingSpeeds;
 

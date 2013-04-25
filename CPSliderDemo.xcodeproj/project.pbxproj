@@ -257,6 +257,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CPSliderDemo/CPSliderDemo-Prefix.pch";
 				INFOPLIST_FILE = "CPSliderDemo/CPSliderDemo-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PRODUCT_NAME = CPSliderDemo;
 				WRAPPER_EXTENSION = app;
 			};
@@ -268,6 +269,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CPSliderDemo/CPSliderDemo-Prefix.pch";
 				INFOPLIST_FILE = "CPSliderDemo/CPSliderDemo-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PRODUCT_NAME = CPSliderDemo;
 				WRAPPER_EXTENSION = app;
 			};
