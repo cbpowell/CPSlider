@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6BC0B7D0185F8F1D00BA280B /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BC0B7CF185F8F1D00BA280B /* Default-568h@2x.png */; };
 		EAD172C615804DF800302AC5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAD172C515804DF800302AC5 /* UIKit.framework */; };
 		EAD172C815804DF800302AC5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAD172C715804DF800302AC5 /* Foundation.framework */; };
 		EAD172CA15804DF800302AC5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAD172C915804DF800302AC5 /* CoreGraphics.framework */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6BC0B7CF185F8F1D00BA280B /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
 		EAD172C115804DF800302AC5 /* CPSliderDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CPSliderDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EAD172C515804DF800302AC5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		EAD172C715804DF800302AC5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -95,6 +97,7 @@
 		EAD172CC15804DF800302AC5 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				6BC0B7CF185F8F1D00BA280B /* Default-568h@2x.png */,
 				EAD172CD15804DF800302AC5 /* CPSliderDemo-Info.plist */,
 				EAD172CE15804DF800302AC5 /* InfoPlist.strings */,
 				EAD172D115804DF800302AC5 /* main.m */,
@@ -165,6 +168,7 @@
 			files = (
 				EAD172D015804DF800302AC5 /* InfoPlist.strings in Resources */,
 				EAD172DC15804DF800302AC5 /* CPViewController.xib in Resources */,
+				6BC0B7D0185F8F1D00BA280B /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -254,11 +258,13 @@
 		EAD172E015804DF800302AC5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CPSliderDemo/CPSliderDemo-Prefix.pch";
 				INFOPLIST_FILE = "CPSliderDemo/CPSliderDemo-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1.1;
 				PRODUCT_NAME = CPSliderDemo;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -266,11 +272,13 @@
 		EAD172E115804DF800302AC5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CPSliderDemo/CPSliderDemo-Prefix.pch";
 				INFOPLIST_FILE = "CPSliderDemo/CPSliderDemo-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1.1;
 				PRODUCT_NAME = CPSliderDemo;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
