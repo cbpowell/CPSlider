@@ -38,6 +38,7 @@
 
 @interface CPSlider () {
     CGFloat _beginX;
+    float _lastValue;
 }
 
 @property (nonatomic) NSUInteger currentSpeedPositionIndex;
@@ -71,7 +72,7 @@
 
 - (void)setupSliderDefaults
 {
-    self.scrubbingSpeedPositions = @[@(0), @(50),  @(10), @(150)];
+    self.scrubbingSpeedPositions = @[@(0), @(50),  @(100), @(150)];
     
     self.scrubbingSpeeds = @[@(1.0f), @(0.5f), @(0.25f), @(0.1f)];
     
@@ -85,11 +86,15 @@
 - (void)setValue:(float)value animated:(BOOL)animated {
     if (self.isSliding) {
         // Adjust effective value
-        float effectiveDifference = (value - [super value]) * self.currentScrubbingSpeed;
+        float effectiveDifference = (value - _lastValue) * self.currentScrubbingSpeed;
+        
         self.effectiveValue += (effectiveDifference + self.verticalChangeAdjustment + self.horizontalChangeAdjustment);
         // Reset adjustments
         self.verticalChangeAdjustment = 0.0f;
         self.horizontalChangeAdjustment = 0.0f;
+        
+        _lastValue = value;
+        
     } else {
         // No adjustment
         self.effectiveValue = value;
@@ -119,7 +124,7 @@
     }
     
     if (currentSpeedPositionIndex == NSNotFound) {
-        currentSpeedPositionIndex = self.scrubbingSpeedPositions.count;
+        currentSpeedPositionIndex = self.scrubbingSpeedPositions.count-1;
     }
     _currentSpeedPositionIndex = currentSpeedPositionIndex;
     
@@ -155,6 +160,8 @@
     CGRect thumbRect = [self thumbRectForBounds:self.bounds trackRect:trackRect value:value];
     
     _beginX = thumbRect.size.width-CGRectGetMaxX(thumbRect)+currentTouchPoint.x;
+    
+    _lastValue = value;
     
     BOOL ok = [super beginTrackingWithTouch:touch withEvent:event];
     
@@ -193,7 +200,7 @@
         
         CGRect thumbRect = [self thumbRectForBounds:self.bounds trackRect:trackRect value:0.0f];
         
-        CGFloat newValue = ((self.maximumValue - self.minimumValue) * (currentTouchPoint.x-_beginX)) / (trackRect.size.width-thumbRect.size.width);
+        CGFloat newValue =((self.maximumValue - self.minimumValue) * (currentTouchPoint.x-_beginX)) / (trackRect.size.width-thumbRect.size.width);
         
         [self setValue:newValue animated:NO];
         [self setNeedsLayout];
