@@ -14,10 +14,10 @@
  * copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following
  * conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
  * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -30,7 +30,9 @@
 
 #import "CPSlider.h"
 
-@interface CPSlider ()
+@interface CPSlider () {
+    CGFloat _beginX;
+}
 
 @property (nonatomic) NSUInteger currentSpeedPositionIndex;
 @property (nonatomic) float effectiveValue;
@@ -63,17 +65,9 @@
 
 - (void)setupSliderDefaults
 {
-    self.scrubbingSpeedPositions = [NSArray arrayWithObjects:
-                                    [NSNumber numberWithInt:0],
-                                    [NSNumber numberWithInt:50], 
-                                    [NSNumber numberWithInt:100],
-                                    [NSNumber numberWithInt:150], nil];
+    self.scrubbingSpeedPositions = @[@(0), @(50),  @(10), @(150)];
     
-    self.scrubbingSpeeds = [NSArray arrayWithObjects:
-                            [NSNumber numberWithFloat:1.0f],
-                            [NSNumber numberWithFloat:0.5f],
-                            [NSNumber numberWithFloat:0.25f],
-                            [NSNumber numberWithFloat:0.1f], nil];
+    self.scrubbingSpeeds = @[@(1.0f), @(0.5f), @(0.25f), @(0.1f)];
     
     self.effectiveValue = 0.0f;
     self.ignoreDraggingAboveSlider = YES;
@@ -96,7 +90,9 @@
     }
     
     // Either way, set use super to set true value
-    [super setValue:MAX(MIN(value, self.maximumValue), self.minimumValue) animated:animated];
+    float actual = MAX(MIN(value, self.maximumValue), self.minimumValue);
+    
+    [super setValue:actual animated:animated];
 }
 
 - (float)value {
@@ -126,7 +122,7 @@
         [self.delegate slider:self didChangeToSpeedIndex:_currentSpeedPositionIndex whileTracking:self.isSliding];
     }
     if ([self.delegate respondsToSelector:@selector(slider:didChangeToSpeed:whileTracking:)] && _currentSpeedPositionIndex != NSNotFound) {
-        [self.delegate slider:self didChangeToSpeed:[[self.scrubbingSpeeds objectAtIndex:_currentSpeedPositionIndex] floatValue] whileTracking:self.isSliding];
+        [self.delegate slider:self didChangeToSpeed:[(self.scrubbingSpeeds)[_currentSpeedPositionIndex] floatValue] whileTracking:self.isSliding];
     }
 }
 
@@ -143,14 +139,33 @@
 - (BOOL)beginTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event {
     self.isSliding = YES;
     self.currentSpeedPositionIndex = 0;
-    return [super beginTrackingWithTouch:touch withEvent:event];
+    
+    float value = [self value];
+    
+    CGRect trackRect = [self trackRectForBounds:self.bounds];
+    
+    CGPoint currentTouchPoint = [touch locationInView:self];
+    
+    CGRect thumbRect = [self thumbRectForBounds:self.bounds trackRect:trackRect value:value];
+    
+    _beginX = thumbRect.size.width-CGRectGetMaxX(thumbRect)+currentTouchPoint.x;
+    
+    BOOL ok = [super beginTrackingWithTouch:touch withEvent:event];
+    
+    [self setValue:value];
+    
+    return ok;
 }
 
 - (BOOL)continueTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event {
     if (self.isSliding) {
+        CGRect trackRect = [self trackRectForBounds:self.bounds];
+        
         CGPoint currentTouchPoint = [touch locationInView:self];
+        currentTouchPoint.x -= trackRect.origin.x;
+        
         CGPoint previousTouchPoint = [touch previousLocationInView:self];
-        CGFloat verticalDownrange = currentTouchPoint.y - CGRectGetMidY([self trackRectForBounds:self.bounds]);
+        CGFloat verticalDownrange = currentTouchPoint.y - CGRectGetMidY(trackRect);
         self.currentSpeedPositionIndex = [self scrubbingSpeedPositionForVerticalDownrange:verticalDownrange];
         
         // Check if the touch is returning to the slider
@@ -167,7 +182,11 @@
         }
         
         // Apply horizontal change (emulation (I think?) of standard UISlider)
-        CGFloat newValue = (self.maximumValue - self.minimumValue) * currentTouchPoint.x / [self trackRectForBounds:self.bounds].size.width;
+        
+        CGRect thumbRect = [self thumbRectForBounds:self.bounds trackRect:trackRect value:0.0f];
+        
+        CGFloat newValue = ((self.maximumValue - self.minimumValue) * (currentTouchPoint.x-_beginX)) / (trackRect.size.width-thumbRect.size.width);
+        
         [self setValue:newValue animated:NO];
         [self setNeedsLayout];
         
@@ -208,7 +227,7 @@
 
 #pragma mark - Other Helpers
 
-- (NSUInteger)scrubbingSpeedPositionForVerticalDownrange:(CGFloat)downrange {    
+- (NSUInteger)scrubbingSpeedPositionForVerticalDownrange:(CGFloat)downrange {
     // Ignore negative downranges if specified
     if (self.ignoreDraggingAboveSlider) {
         downrange = MAX(downrange, 0);
@@ -223,7 +242,7 @@
 }
 
 - (float)currentScrubbingSpeed {
-    return [[self.scrubbingSpeeds objectAtIndex:self.currentSpeedPositionIndex] floatValue];
+    return [(self.scrubbingSpeeds)[self.currentSpeedPositionIndex] floatValue];
 }
 
 - (NSUInteger)currentScrubbingSpeedPosition {

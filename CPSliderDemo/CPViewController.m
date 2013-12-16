@@ -20,23 +20,15 @@
 {
     [super viewDidLoad];
 	
-    CPSlider *newSlider = [[CPSlider alloc] initWithFrame:CGRectMake(30, 100, 260, 23)];
+    CPSlider *newSlider = [[CPSlider alloc] initWithFrame:CGRectMake(30.0f, 100.0f, 260.0f, 23.0f)];
     [self.view addSubview:newSlider];
     self.slider = newSlider;
     self.slider.delegate = self;
     [self.slider addTarget:self action:@selector(sliderValueDidChange:) forControlEvents:UIControlEventValueChanged];
     
-    self.slider.scrubbingSpeedPositions = [NSArray arrayWithObjects:
-                                           [NSNumber numberWithInt:0],
-                                           [NSNumber numberWithInt:50], 
-                                           [NSNumber numberWithInt:125],
-                                           [NSNumber numberWithInt:200], nil];
+    self.slider.scrubbingSpeedPositions = @[@(0), @(50), @(125), @(200)];
     
-    self.slider.scrubbingSpeeds = [NSArray arrayWithObjects:
-                                   [NSNumber numberWithFloat:1.0f],
-                                   [NSNumber numberWithFloat:0.5f],
-                                   [NSNumber numberWithFloat:0.25f],
-                                   [NSNumber numberWithFloat:0.1f], nil];
+    self.slider.scrubbingSpeeds = @[@(1.0f), @(0.5f), @(0.25f), @(0.1f)];
 }
 
 - (void)viewDidUnload
@@ -60,7 +52,7 @@
 - (void)resetToCenter:(id)sender {
     self.slider.value = 0.5f;
     self.positionLabel.text = @"0.5f";
-    self.speedLabel.text = [NSString stringWithFormat:@"%.3f", [[self.slider.scrubbingSpeeds objectAtIndex:0] floatValue]];
+    self.speedLabel.text = [NSString stringWithFormat:@"%.3f", [(self.slider.scrubbingSpeeds)[0] floatValue]];
 }
 
 #pragma mark - Slider Delegate
