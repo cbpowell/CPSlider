@@ -30,6 +30,12 @@
 
 #import "CPSlider.h"
 
+#ifndef kCFCoreFoundationVersionNumber_iOS_7_0
+#define kCFCoreFoundationVersionNumber_iOS_7_0 838.00
+#endif
+
+#define iOS7 (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_7_0)
+
 @interface CPSlider () {
     CGFloat _beginX;
 }
@@ -152,7 +158,9 @@
     
     BOOL ok = [super beginTrackingWithTouch:touch withEvent:event];
     
-    [self setValue:value];
+    if (iOS7) {
+        [self setValue:value]; //fixes a UISlider bug on iOS 7
+    }
     
     return ok;
 }
