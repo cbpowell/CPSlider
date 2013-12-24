@@ -30,17 +30,10 @@
 
 #import "CPSlider.h"
 
-#ifndef kCFCoreFoundationVersionNumber_iOS_7_0
-#define kCFCoreFoundationVersionNumber_iOS_7_0 838.00
-#endif
+@interface CPSlider ()
 
-#define iOS7 (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_7_0)
-
-@interface CPSlider () {
-    CGFloat _beginX;
-    float _lastValue;
-}
-
+@property (nonatomic) CGFloat startingX;
+@property (nonatomic) float lastValue;
 @property (nonatomic) NSUInteger currentSpeedPositionIndex;
 @property (nonatomic) float effectiveValue;
 @property (nonatomic) float verticalChangeAdjustment;
@@ -72,9 +65,17 @@
 
 - (void)setupSliderDefaults
 {
-    self.scrubbingSpeedPositions = @[@(0), @(50),  @(100), @(150)];
+    self.scrubbingSpeedPositions = [NSArray arrayWithObjects:
+                                    [NSNumber numberWithInt:0],
+                                    [NSNumber numberWithInt:50],
+                                    [NSNumber numberWithInt:100],
+                                    [NSNumber numberWithInt:150], nil];
     
-    self.scrubbingSpeeds = @[@(1.0f), @(0.5f), @(0.25f), @(0.1f)];
+    self.scrubbingSpeeds = [NSArray arrayWithObjects:
+                            [NSNumber numberWithFloat:1.0f],
+                            [NSNumber numberWithFloat:0.5f],
+                            [NSNumber numberWithFloat:0.25f],
+                            [NSNumber numberWithFloat:0.1f], nil];
     
     self.effectiveValue = 0.0f;
     self.ignoreDraggingAboveSlider = YES;
@@ -86,14 +87,14 @@
 - (void)setValue:(float)value animated:(BOOL)animated {
     if (self.isSliding) {
         // Adjust effective value
-        float effectiveDifference = (value - _lastValue) * self.currentScrubbingSpeed;
+        float effectiveDifference = (value - self.lastValue) * self.currentScrubbingSpeed;
         
         self.effectiveValue += (effectiveDifference + self.verticalChangeAdjustment + self.horizontalChangeAdjustment);
         // Reset adjustments
         self.verticalChangeAdjustment = 0.0f;
         self.horizontalChangeAdjustment = 0.0f;
         
-        _lastValue = value;
+        self.lastValue = value;
         
     } else {
         // No adjustment
@@ -133,7 +134,7 @@
         [self.delegate slider:self didChangeToSpeedIndex:_currentSpeedPositionIndex whileTracking:self.isSliding];
     }
     if ([self.delegate respondsToSelector:@selector(slider:didChangeToSpeed:whileTracking:)] && _currentSpeedPositionIndex != NSNotFound) {
-        [self.delegate slider:self didChangeToSpeed:[(self.scrubbingSpeeds)[_currentSpeedPositionIndex] floatValue] whileTracking:self.isSliding];
+        [self.delegate slider:self didChangeToSpeed:[[self.scrubbingSpeeds objectAtIndex:_currentSpeedPositionIndex] floatValue] whileTracking:self.isSliding];
     }
 }
 
@@ -159,17 +160,17 @@
     
     CGRect thumbRect = [self thumbRectForBounds:self.bounds trackRect:trackRect value:value];
     
-    _beginX = thumbRect.size.width-CGRectGetMaxX(thumbRect)+currentTouchPoint.x;
+    self.startingX = thumbRect.size.width - CGRectGetMaxX(thumbRect) + currentTouchPoint.x;
+    self.lastValue = value;
     
-    _lastValue = value;
+    // The following sequence fixes a "jump" that occurs on touchdown on iOS 7 (and up?)
+    // [super setValue:] corrects the change in slider value that's apparently caused by the call
+    // to [super beginTrackingWithTouch:withEvent:]
+    BOOL continuous = [super beginTrackingWithTouch:touch withEvent:event];
+    [self setValue:value];
+    [self sendActionsForControlEvents:UIControlEventValueChanged];
     
-    BOOL ok = [super beginTrackingWithTouch:touch withEvent:event];
-    
-    if (iOS7) {
-        [self setValue:value]; //fixes a UISlider bug on iOS 7
-    }
-    
-    return ok;
+    return continuous;
 }
 
 - (BOOL)continueTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event {
@@ -200,7 +201,7 @@
         
         CGRect thumbRect = [self thumbRectForBounds:self.bounds trackRect:trackRect value:0.0f];
         
-        CGFloat newValue =((self.maximumValue - self.minimumValue) * (currentTouchPoint.x-_beginX)) / (trackRect.size.width-thumbRect.size.width);
+        CGFloat newValue =((self.maximumValue - self.minimumValue) * (currentTouchPoint.x - self.startingX)) / (trackRect.size.width - thumbRect.size.width);
         
         [self setValue:newValue animated:NO];
         [self setNeedsLayout];
@@ -257,7 +258,7 @@
 }
 
 - (float)currentScrubbingSpeed {
-    return [(self.scrubbingSpeeds)[self.currentSpeedPositionIndex] floatValue];
+    return [[self.scrubbingSpeeds objectAtIndex:self.currentSpeedPositionIndex] floatValue];
 }
 
 - (NSUInteger)currentScrubbingSpeedPosition {
