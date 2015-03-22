@@ -250,7 +250,7 @@
     }
     
     return [self.scrubbingSpeedPositions indexOfObjectWithOptions:NSEnumerationReverse passingTest:^BOOL(NSNumber *obj, NSUInteger idx, BOOL *stop){
-        if (downrange >= [obj floatValue]) {
+        if (abs(downrange) >= abs([obj floatValue])) {
             return YES;
         }
         return NO;
