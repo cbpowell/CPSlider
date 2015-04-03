@@ -30,7 +30,9 @@
 
 #import "CPSlider.h"
 
-@interface CPSlider ()
+@interface CPSlider () {
+	CGPoint _beginTouchLocation;
+}
 
 @property (nonatomic) CGFloat startingX;
 @property (nonatomic) float lastValue;
@@ -156,11 +158,11 @@
     
     CGRect trackRect = [self trackRectForBounds:self.bounds];
     
-    CGPoint currentTouchPoint = [touch locationInView:self];
-    
+	_beginTouchLocation = [touch locationInView:self];
+	
     CGRect thumbRect = [self thumbRectForBounds:self.bounds trackRect:trackRect value:value];
     
-    self.startingX = thumbRect.size.width - CGRectGetMaxX(thumbRect) + currentTouchPoint.x;
+    self.startingX = thumbRect.size.width - CGRectGetMaxX(thumbRect) + _beginTouchLocation.x;
     self.lastValue = value;
     
     // The following sequence fixes a "jump" that occurs on touchdown on iOS 7 (and up?)
@@ -168,8 +170,7 @@
     // to [super beginTrackingWithTouch:withEvent:]
     BOOL continuous = [super beginTrackingWithTouch:touch withEvent:event];
     [self setValue:value];
-    [self sendActionsForControlEvents:UIControlEventValueChanged];
-    
+	
     return continuous;
 }
 
@@ -217,13 +218,19 @@
 - (void)endTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event {
     self.currentSpeedPositionIndex = 0;
     self.isSliding = NO;
+	
+	CGPoint currentTouchLocation = [touch locationInView:self];
+	
+	// change only if we have moved a finger
+	if( !CGPointEqualToPoint( _beginTouchLocation, currentTouchLocation) ) {
+		// Move value to new value
+		[super setValue:self.effectiveValue animated:NO];
+		[self setNeedsLayout];
     
-    // Move value to new value
-    [super setValue:self.effectiveValue animated:NO];
-    [self setNeedsLayout];
-    
-    // UIControl cleanup
-    [self sendActionsForControlEvents:UIControlEventValueChanged];
+		// UIControl cleanup
+		[self sendActionsForControlEvents:UIControlEventValueChanged];
+	}
+	
     self.highlighted = NO;
 }
 
