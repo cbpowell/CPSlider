@@ -29,6 +29,10 @@
     self.slider.scrubbingSpeedPositions = @[@(0), @(50), @(125), @(200)];
     
     self.slider.scrubbingSpeeds = @[@(1.0f), @(0.5f), @(0.25f), @(0.1f)];
+	
+	// fix glitch on iOS 7+
+	self.slider.shouldNotCallSuperOnBeginTracking = [[UIDevice currentDevice].systemVersion compare:@"7.0" options:NSNumericSearch] != NSOrderedAscending;
+
 }
 
 - (void)viewDidUnload
