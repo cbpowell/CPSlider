@@ -1,3 +1,12 @@
+##### This fork fixes some issues:
+
+- property `shouldNotCallSuperOnBeginTracking` was added, because on iOS 7+ call to `[super beginTrackingWithTouch:touch withEvent:event]` causes glitch (its default value is **NOT** for compatibility)
+- on `endTrackingWithTouch:withEvent:`  overriden property `isTracking` of UISlider is set to **NO**, originally it's a responsibility of `[super endTrackingWithTouch:withEvent:]`
+
+Example of using the fix to the glitch on iOS 7+:
+
+    self.slider.shouldNotCallSuperOnBeginTracking = [[UIDevice currentDevice].systemVersion compare:@"7.0" options:NSNumericSearch] != NSOrderedAscending;
+
 ## Description
 
 CPSlider is a drop-in, subclass replacement for UISlider that allows varying scrubbing speeds as the user drags away from the slider thumb, emulating the slider used in the iOS iPod music player. It also includes delegate callbacks to allow an object to be notified of scrubbing speed changes.

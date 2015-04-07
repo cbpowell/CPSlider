@@ -38,12 +38,13 @@
 @property (nonatomic) float effectiveValue;
 @property (nonatomic) float verticalChangeAdjustment;
 @property (nonatomic) float horizontalChangeAdjustment;
-@property (nonatomic) BOOL isSliding;
-// NOTE: just using self.tracking causes order-of-occurance problems, so use this isSliding method internally
+@property (nonatomic,getter=isTracking) BOOL tracking;
 
 @end
 
 @implementation CPSlider
+
+@synthesize tracking = _tracking;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -85,7 +86,7 @@
 #pragma mark - Custom UISlider getters/setters
 
 - (void)setValue:(float)value animated:(BOOL)animated {
-    if (self.isSliding) {
+    if (self.isTracking) {
         // Adjust effective value
         float effectiveDifference = (value - self.lastValue) * self.currentScrubbingSpeed;
         
@@ -108,7 +109,7 @@
 }
 
 - (float)value {
-    if (self.isSliding) {
+    if (self.isTracking) {
         // If sliding, return the effective value
         return self.effectiveValue;
     } else {
@@ -131,10 +132,10 @@
     
     // Notify delegates
     if ([self.delegate respondsToSelector:@selector(slider:didChangeToSpeedIndex:whileTracking:)]) {
-        [self.delegate slider:self didChangeToSpeedIndex:_currentSpeedPositionIndex whileTracking:self.isSliding];
+        [self.delegate slider:self didChangeToSpeedIndex:_currentSpeedPositionIndex whileTracking:self.isTracking];
     }
     if ([self.delegate respondsToSelector:@selector(slider:didChangeToSpeed:whileTracking:)] && _currentSpeedPositionIndex != NSNotFound) {
-        [self.delegate slider:self didChangeToSpeed:[[self.scrubbingSpeeds objectAtIndex:_currentSpeedPositionIndex] floatValue] whileTracking:self.isSliding];
+        [self.delegate slider:self didChangeToSpeed:[[self.scrubbingSpeeds objectAtIndex:_currentSpeedPositionIndex] floatValue] whileTracking:self.isTracking];
     }
 }
 
@@ -149,7 +150,6 @@
 #pragma mark - Touch handlers
 
 - (BOOL)beginTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event {
-    self.isSliding = YES;
     self.currentSpeedPositionIndex = 0;
     
     float value = [self value];
@@ -162,19 +162,21 @@
     
     self.startingX = thumbRect.size.width - CGRectGetMaxX(thumbRect) + currentTouchPoint.x;
     self.lastValue = value;
-    
-    // The following sequence fixes a "jump" that occurs on touchdown on iOS 7 (and up?)
-    // [super setValue:] corrects the change in slider value that's apparently caused by the call
-    // to [super beginTrackingWithTouch:withEvent:]
-    BOOL continuous = [super beginTrackingWithTouch:touch withEvent:event];
-    [self setValue:value];
-    [self sendActionsForControlEvents:UIControlEventValueChanged];
-    
-    return continuous;
+	
+	// Skipping call to [super beginTrackingWithTouch:withEvent:] fixes a "jump" that occurs on touchdown on iOS 7 (and up?)
+	BOOL beginTracking;
+	if( self.shouldNotCallSuperOnBeginTracking ) {
+		beginTracking = YES;
+		[self sendActionsForControlEvents:UIControlEventValueChanged];
+	} else {
+		beginTracking = [super beginTrackingWithTouch:touch withEvent:event];
+	}
+	
+	return beginTracking;
 }
 
 - (BOOL)continueTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event {
-    if (self.isSliding) {
+    if (self.isTracking) {
         CGRect trackRect = [self trackRectForBounds:self.bounds];
         
         CGPoint currentTouchPoint = [touch locationInView:self];
@@ -211,27 +213,33 @@
             [self sendActionsForControlEvents:UIControlEventValueChanged];
         }
     }
-    return self.isSliding;
+    return self.isTracking;
 }
 
 - (void)endTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event {
-    self.currentSpeedPositionIndex = 0;
-    self.isSliding = NO;
-    
-    // Move value to new value
+	
+	self.currentSpeedPositionIndex = 0;
+	
+	// because [UISlider endTrackingWithTouch:withEvent:] interfere with our code
+	// we can't call super, but we use overriden property to indicate end of tracking
+	self.tracking = NO;
+
+	// Move value to new value
     [super setValue:self.effectiveValue animated:NO];
     [self setNeedsLayout];
-    
-    // UIControl cleanup
-    [self sendActionsForControlEvents:UIControlEventValueChanged];
-    self.highlighted = NO;
+	
+	// check if the value was changed
+	[self sendActionsForControlEvents:UIControlEventValueChanged];
+	
+	// UIControl cleanup
+	self.highlighted = NO;
 }
 
 #pragma mark - UISlider Rect methods
 
 - (CGRect)thumbRectForBounds:(CGRect)bounds trackRect:(CGRect)rect value:(float)value {
     CGRect thumbRect;
-    if (self.isSliding) {
+    if (self.isTracking) {
         // If sliding, use the effective value to place the thumb
         thumbRect = [super thumbRectForBounds:bounds trackRect:rect value:self.effectiveValue];
     } else {
