@@ -59,7 +59,6 @@
  */
 @property (nonatomic) BOOL ignoreDraggingAboveSlider;
 
-
 /**
  On iOS 7+ is a glitch when beginTrackingWithTouch:touch:withEvent is called
  Default is NO, for compatibility reasons

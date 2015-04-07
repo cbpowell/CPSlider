@@ -38,11 +38,13 @@
 @property (nonatomic) float effectiveValue;
 @property (nonatomic) float verticalChangeAdjustment;
 @property (nonatomic) float horizontalChangeAdjustment;
-@property (nonatomic) float beginTrackingValue;
+@property (nonatomic,getter=isTracking) BOOL tracking;
 
 @end
 
 @implementation CPSlider
+
+@synthesize tracking = _tracking;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -161,10 +163,14 @@
     self.startingX = thumbRect.size.width - CGRectGetMaxX(thumbRect) + currentTouchPoint.x;
     self.lastValue = value;
 	
-	self.beginTrackingValue = value;
-
 	// Skipping call to [super beginTrackingWithTouch:withEvent:] fixes a "jump" that occurs on touchdown on iOS 7 (and up?)
-	BOOL beginTracking = self.shouldNotCallSuperOnBeginTracking ? YES :	[super beginTrackingWithTouch:touch withEvent:event];
+	BOOL beginTracking;
+	if( self.shouldNotCallSuperOnBeginTracking ) {
+		beginTracking = YES;
+		[self sendActionsForControlEvents:UIControlEventValueChanged];
+	} else {
+		beginTracking = [super beginTrackingWithTouch:touch withEvent:event];
+	}
 	
 	return beginTracking;
 }
@@ -215,17 +221,15 @@
 	self.currentSpeedPositionIndex = 0;
 	
 	// because [UISlider endTrackingWithTouch:withEvent:] interfere with our code
-	// we can't call super, but we should at least set the 'tracking' property to NO
-	[self setValue:@(NO) forKey:@"tracking"];
+	// we can't call super, but we use overriden property to indicate end of tracking
+	self.tracking = NO;
 
 	// Move value to new value
     [super setValue:self.effectiveValue animated:NO];
     [self setNeedsLayout];
 	
 	// check if the value was changed
-	if( self.effectiveValue != self.beginTrackingValue ) {
-		[self sendActionsForControlEvents:UIControlEventValueChanged];
-	}
+	[self sendActionsForControlEvents:UIControlEventValueChanged];
 	
 	// UIControl cleanup
 	self.highlighted = NO;
