@@ -12,10 +12,10 @@
 
 @interface CPViewController : UIViewController <CPSliderDelegate>
 
-@property (nonatomic, strong) CPSlider *slider;
-@property (nonatomic, strong) IBOutlet UIButton *resetButton;
-@property (nonatomic, strong) IBOutlet UILabel *positionLabel;
-@property (nonatomic, strong) IBOutlet UILabel *speedLabel;
+@property (nonatomic, weak) CPSlider *slider;
+@property (nonatomic, weak) IBOutlet UIButton *resetButton;
+@property (nonatomic, weak) IBOutlet UILabel *positionLabel;
+@property (nonatomic, weak) IBOutlet UILabel *speedLabel;
 
 - (IBAction)resetToCenter:(id)sender;
 

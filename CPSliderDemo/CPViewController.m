@@ -20,11 +20,12 @@
 {
     [super viewDidLoad];
 	
-    CPSlider *newSlider = [[CPSlider alloc] initWithFrame:CGRectMake(30.0f, 100.0f, 260.0f, 23.0f)];
-    [self.view addSubview:newSlider];
-    self.slider = newSlider;
+    CPSlider *slider = [[CPSlider alloc] initWithFrame:CGRectMake(30.0f, 100.0f, 260.0f, 23.0f)];
+    [self.view addSubview:slider];
+    self.slider = slider;
+    
     self.slider.delegate = self;
-    [self.slider addTarget:self action:@selector(sliderValueDidChange:) forControlEvents:UIControlEventValueChanged];
+    [slider addTarget:self action:@selector(sliderValueDidChange:) forControlEvents:UIControlEventValueChanged];
     
     self.slider.scrubbingSpeedPositions = @[@(0), @(50), @(125), @(200)];
     
@@ -46,6 +47,7 @@
 }
 
 - (void)sliderValueDidChange:(CPSlider *)sender {
+    NSLog(@"%.5f", sender.value);
     self.positionLabel.text = [NSString stringWithFormat:@"%.5f", sender.value];
 }
 
