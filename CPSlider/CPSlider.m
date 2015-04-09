@@ -85,6 +85,11 @@
 #pragma mark - Custom UISlider getters/setters
 
 - (void)setValue:(float)value animated:(BOOL)animated {
+    // Catch "jump" which occurs in iOS 7 and up
+    if (!self.isTracking && self.isSliding) {
+        return;
+    }
+    
     if (self.isSliding) {
         // Adjust effective value
         float effectiveDifference = (value - self.lastValue) * self.currentScrubbingSpeed;
@@ -163,14 +168,7 @@
     self.startingX = thumbRect.size.width - CGRectGetMaxX(thumbRect) + currentTouchPoint.x;
     self.lastValue = value;
     
-    // The following sequence fixes a "jump" that occurs on touchdown on iOS 7 (and up?)
-    // [super setValue:] corrects the change in slider value that's apparently caused by the call
-    // to [super beginTrackingWithTouch:withEvent:]
-    BOOL continuous = [super beginTrackingWithTouch:touch withEvent:event];
-    [self setValue:value];
-    [self sendActionsForControlEvents:UIControlEventValueChanged];
-    
-    return continuous;
+    return [super beginTrackingWithTouch:touch withEvent:event];
 }
 
 - (BOOL)continueTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event {
