@@ -185,12 +185,12 @@
         // Check if the touch is returning to the slider
         float maxDownrange = [[self.scrubbingSpeedPositions lastObject] floatValue];
         if (self.accelerateWhenReturning &&
-            fabsf(currentTouchPoint.y < fabsf(previousTouchPoint.y)) && // adjust only if touch is returning
-            fabsf(currentTouchPoint.y) < maxDownrange && // adjust only if it's inside the furthest slider speed position
+            fabs(currentTouchPoint.y) < fabs(previousTouchPoint.y) && // adjust only if touch is returning
+            fabs(currentTouchPoint.y) < maxDownrange && // adjust only if it's inside the furthest slider speed position
             ![self pointInside:currentTouchPoint withEvent:nil]) // do not adjust if the touch is on the slider. Prevents jumpiness when default speed is not 1.0f
         {
             // Calculate and apply any vertical adjustment
-            verticalDownrange = fabsf(verticalDownrange);
+            verticalDownrange = fabs(verticalDownrange);
             float adjustmentRatio = powf((1 - (verticalDownrange/maxDownrange)), 4);
             self.verticalChangeAdjustment = ([super value] - self.effectiveValue) * adjustmentRatio;
         }
