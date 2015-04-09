@@ -213,16 +213,16 @@
 }
 
 - (void)endTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event {
+    // Pre-set value to effective value
+    [super setValue:self.effectiveValue animated:NO];
+    
+    // Call super before changing isSliding to NO, to catch value change
+    // in same logic used for iOS 7+ "jump" fix
+    [super endTrackingWithTouch:touch withEvent:event];
+    
+    // Reset
     self.currentSpeedPositionIndex = 0;
     self.isSliding = NO;
-    
-    // Move value to new value
-    [super setValue:self.effectiveValue animated:NO];
-    [self setNeedsLayout];
-    
-    // UIControl cleanup
-    [self sendActionsForControlEvents:UIControlEventValueChanged];
-    self.highlighted = NO;
 }
 
 #pragma mark - UISlider Rect methods
