@@ -199,7 +199,7 @@
         
         CGRect thumbRect = [self thumbRectForBounds:self.bounds trackRect:trackRect value:0.0f];
         
-        CGFloat newValue =((self.maximumValue - self.minimumValue) * (currentTouchPoint.x - self.startingX)) / (trackRect.size.width - thumbRect.size.width);
+        CGFloat newValue = self.minimumValue + (self.maximumValue - self.minimumValue) * (currentTouchPoint.x - self.startingX) / (trackRect.size.width - thumbRect.size.width);
         
         [self setValue:newValue animated:NO];
         [self setNeedsLayout];
